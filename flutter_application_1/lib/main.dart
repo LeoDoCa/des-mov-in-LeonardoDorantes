@@ -55,6 +55,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String name = 'Leonardo';
+  int age = 20;
+  bool programming = true;
 
   void _incrementCounter() {
     setState(() {
@@ -64,6 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+  void _decrementCounter(){
+    setState(() {
+      if(_counter>0){
+        _counter--;
+      }
     });
   }
 
@@ -109,14 +119,39 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Nombre: $name',
+            ),
+            Text(
+              'Edad: $age',
+            ),
+            Text(
+              '¿Soy bueno pa la chamba?: $programming',
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: 
+        Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SizedBox(height: 20,),
+          FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+          SizedBox(height: 7,),
+          FloatingActionButton(
+            onPressed: _decrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.remove),
+          ), 
+        ],
+      )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
