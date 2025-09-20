@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Student.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,6 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
   int age = 20;
   bool programming = true;
 
+  final List<String> students = ["Alumno1", "Alumno2", "Alumno3"];
+  final Student student = Student("EstudianteTest1", "LDDC12ABC");
+  List<Student> studentsList = []; 
+
+  TextEditingController _txtName = TextEditingController();
+  TextEditingController _txtStudentId = TextEditingController();
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -75,6 +83,40 @@ class _MyHomePageState extends State<MyHomePage> {
         _counter--;
       }
     });
+  }
+
+  Widget _getAllStudents(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox ( height: 12,),
+        Text("Students list:"),
+        SizedBox(height: 12,),
+      ...studentsList.map((student) => Text(" - ${student.name} (ID: ${student.studentId})")).toList()
+      ]
+    );
+  }
+
+  void _addStudent(){
+    final name = _txtName.text.trim();
+    final studentId = _txtStudentId.text.trim();
+    if(name.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please write something"))
+      );
+      return;
+    }
+    if(studentId.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please write something"))
+      );
+      return;
+    }
+    setState(() {
+      studentsList.add(Student(name, studentId));
+    });
+    _txtName.clear();
+    _txtStudentId.clear();
   }
 
   @override
@@ -119,6 +161,32 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            SizedBox(height: 15,),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
+            child: TextField(
+              controller: _txtName,
+              decoration: InputDecoration(
+                labelText: "Name:",
+                border: OutlineInputBorder()
+              ),
+            )
+            ),
+            SizedBox(height: 15,),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
+            child: TextField(
+              controller: _txtStudentId,
+              decoration: InputDecoration(
+                labelText: "StudentId:",
+                border: OutlineInputBorder()
+              ),
+            )
+            ),
+            SizedBox(height: 15,),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
+            child: ElevatedButton(
+              onPressed: _addStudent,
+              child: Text("Add Student"))
+            ),
             SizedBox(
               height: 15,
             ),
@@ -131,6 +199,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '¿Soy bueno pa la chamba?: $programming',
             ),
+            SizedBox(height: 15,),
+            Text("Student1: ${student.name}"),
+            Text("Student id: ${student.studentId}"),
+            _getAllStudents()
           ],
         ),
       ),
