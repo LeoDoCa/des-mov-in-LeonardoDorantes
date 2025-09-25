@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/SecondPage.dart';
 import 'package:flutter_application_1/Student.dart';
 
 void main() {
@@ -162,47 +163,11 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             SizedBox(height: 15,),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
-            child: TextField(
-              controller: _txtName,
-              decoration: InputDecoration(
-                labelText: "Name:",
-                border: OutlineInputBorder()
-              ),
-            )
-            ),
-            SizedBox(height: 15,),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
-            child: TextField(
-              controller: _txtStudentId,
-              decoration: InputDecoration(
-                labelText: "StudentId:",
-                border: OutlineInputBorder()
-              ),
-            )
-            ),
-            SizedBox(height: 15,),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 25),
-            child: ElevatedButton(
-              onPressed: _addStudent,
-              child: Text("Add Student"))
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              'Nombre: $name',
-            ),
-            Text(
-              'Edad: $age',
-            ),
-            Text(
-              '¿Soy bueno pa la chamba?: $programming',
-            ),
-            SizedBox(height: 15,),
-            Text("Student1: ${student.name}"),
-            Text("Student id: ${student.studentId}"),
-            _getAllStudents()
+            ElevatedButton(onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SecondPage()));
+            }, child: Text("Go to second page"))
           ],
         ),
       ),
