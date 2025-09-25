@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal[400]!),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<String> students = ["Alumno1", "Alumno2", "Alumno3"];
   final Student student = Student("EstudianteTest1", "LDDC12ABC");
-  List<Student> studentsList = []; 
+  List<Student> studentsList = [];
 
   TextEditingController _txtName = TextEditingController();
   TextEditingController _txtStudentId = TextEditingController();
@@ -78,39 +78,45 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  void _decrementCounter(){
+
+  void _decrementCounter() {
     setState(() {
-      if(_counter>0){
+      if (_counter > 0) {
         _counter--;
       }
     });
   }
 
-  Widget _getAllStudents(){
+  Widget _getAllStudents() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox ( height: 12,),
+        const SizedBox(height: 12),
         Text("Students list:"),
-        SizedBox(height: 12,),
-      ...studentsList.map((student) => Text(" - ${student.name} (ID: ${student.studentId})")).toList()
-      ]
+        SizedBox(height: 12),
+        ...studentsList
+            .map(
+              (student) =>
+                  Text(" - ${student.name} (ID: ${student.studentId})"),
+            )
+            .toList(),
+      ],
     );
   }
 
-  void _addStudent(){
+  void _addStudent() {
     final name = _txtName.text.trim();
     final studentId = _txtStudentId.text.trim();
-    if(name.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please write something"))
-      );
+    if (name.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Please write something")));
       return;
     }
-    if(studentId.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please write something"))
-      );
+    if (studentId.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Please write something")));
       return;
     }
     setState(() {
@@ -162,33 +168,76 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 15,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SecondPage()));
-            }, child: Text("Go to second page"))
+            SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SecondPage(counter: _counter,) ),
+                );
+              },
+              child: Text("Go to second page"),
+            ),
+            SizedBox(height: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: TextField(
+                controller: _txtName,
+                decoration: InputDecoration(
+                  labelText: "Name:",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: TextField(
+                controller: _txtStudentId,
+                decoration: InputDecoration(
+                  labelText: "StudentId:",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: ElevatedButton(
+                onPressed: _addStudent,
+                child: Text("Add Student"),
+              ),
+            ),
+            SizedBox(height: 15),
+            Text('Nombre: $name'),
+            Text('Edad: $age'),
+            Text('¿Soy bueno pa la chamba?: $programming'),
+            SizedBox(height: 15),
+            Text("Student1: ${student.name}"),
+            Text("Student id: ${student.studentId}"),
+            _getAllStudents(),
           ],
         ),
       ),
-      floatingActionButton: 
-        Column(
+      floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          SizedBox(height: 20,),
+          SizedBox(height: 20),
           FloatingActionButton(
+            heroTag: "btnIncrement",
             onPressed: _incrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
-          SizedBox(height: 7,),
+          SizedBox(height: 7),
           FloatingActionButton(
+            heroTag: "btnDecrement",
             onPressed: _decrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.remove),
-          ), 
+          ),
         ],
-      )// This trailing comma makes auto-formatting nicer for build methods.
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
